@@ -55,3 +55,6 @@ next-env.d.ts
 
 # generated prisma files (if any)
 /src/generated/prisma
+
+# local scripts
+/scripts/

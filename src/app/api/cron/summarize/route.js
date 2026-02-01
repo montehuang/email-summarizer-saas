@@ -29,13 +29,19 @@ export async function GET(request) {
             });
 
             const parts = formatter.formatToParts(now);
-            const hh = parts.find(p => p.type === "hour").value;
-            const mm = parts.find(p => p.type === "minute").value;
-            const userTimeStr = `${hh}:${mm}`;
+            const hh = parseInt(parts.find(p => p.type === "hour").value);
+            const mm = parseInt(parts.find(p => p.type === "minute").value);
 
-            console.log(`[Cron] Checking user: ${user.userId}, LocalTime: ${userTimeStr}, TargetTime: ${user.summaryTime}`);
+            const [targetH, targetM] = user.summaryTime.split(":").map(Number);
 
-            return userTimeStr === user.summaryTime;
+            // Robust check: Trigger if the current hour matches AND 
+            // the current minute is within [targetM, targetM + 14]
+            // This ensures a cron running every 15 mins will always catch the user.
+            const isMatch = hh === targetH && mm >= targetM && mm < targetM + 15;
+
+            console.log(`[Cron] Checking user: ${user.userId}, Local: ${hh}:${mm}, Target: ${user.summaryTime}, Match: ${isMatch}`);
+
+            return isMatch;
         });
 
         const results = await Promise.allSettled(
