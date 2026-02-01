@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 export async function summarizeEmails(emails, language = "zh") {
     if (!emails || emails.length === 0) return "No unread emails found.";
 
-    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `
     You are an AI email assistant. Summarize the following unread work emails.

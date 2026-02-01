@@ -31,15 +31,37 @@ export async function sendTelegramNotification(chatId, text) {
     }
 
     const url = `https://api.telegram.org/bot${token}/sendMessage`;
-    const response = await fetch(url, {
+    const body = {
+        chat_id: chatId,
+        text: "📧 *MailAI Daily Email Summary*\n\n" + text,
+        parse_mode: "Markdown"
+    };
+
+    let response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            chat_id: chatId,
-            text: "📧 *MailAI Daily Email Summary*\n\n" + text,
-            parse_mode: "Markdown"
-        }),
+        body: JSON.stringify(body),
     });
+
+    // Fallback logic: If Markdown parsing fails (400 Bad Request), retry without Markdown
+    if (!response.ok && response.status === 400) {
+        const errorData = await response.json();
+        if (errorData.description && errorData.description.includes("can't parse entities")) {
+            console.warn("[Notifier] Telegram Markdown parsing failed, retrying with plain text...");
+
+            // Remove Markdown from header and send plain text
+            body.text = "📧 MailAI Daily Email Summary\n\n" + text;
+            delete body.parse_mode;
+
+            response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            });
+        } else {
+            throw new Error(`Telegram notification failed: ${errorData.description || response.statusText}`);
+        }
+    }
 
     if (!response.ok) {
         const errorData = await response.json();
