@@ -1,7 +1,7 @@
 import prisma from "./prisma";
 import { fetchRecentEmails, markEmailsAsRead } from "./gmail";
 import { summarizeEmails as aiSummarize } from "./ai";
-import { sendSlackNotification, sendWhatsAppNotification } from "./notifier";
+import { sendSlackNotification, sendWhatsAppNotification, sendTelegramNotification } from "./notifier";
 
 export async function processUserSummarization(userId) {
     try {
