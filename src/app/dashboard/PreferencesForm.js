@@ -76,6 +76,9 @@ export default function PreferencesForm({ preferences }) {
                         placeholder="https://hooks.slack.com/services/..."
                         defaultValue={preferences.slackWebhookUrl || ""}
                     />
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', marginTop: '0.4rem' }}>
+                        Create a Webhook at <a href="https://api.slack.com/apps" target="_blank" rel="noreferrer" style={{ color: 'var(--accent)' }}>Slack API Console</a> (Enable Incoming Webhooks)
+                    </p>
                 </div>
 
                 <div className={styles.field}>
@@ -86,6 +89,53 @@ export default function PreferencesForm({ preferences }) {
                         className={styles.input}
                         placeholder="+86138..."
                         defaultValue={preferences.whatsappPhone || ""}
+                    />
+                </div>
+
+                <hr style={{ border: 'none', borderTop: '1px solid var(--border-glass)', margin: '2rem 0' }} />
+
+                <h2 className={styles.sectionTitle}>AI Service Settings</h2>
+                <div className={styles.field} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <input
+                        type="checkbox"
+                        name="useCustomAI"
+                        id="useCustomAI"
+                        defaultChecked={preferences.useCustomAI}
+                        style={{ width: '20px', height: '20px' }}
+                    />
+                    <label htmlFor="useCustomAI" className={styles.label} style={{ marginBottom: 0 }}>
+                        Enable Custom AI Service (Overrides Default)
+                    </label>
+                </div>
+
+                <div className={styles.field}>
+                    <label className={styles.label}>AI Provider</label>
+                    <select name="customAiProvider" className={styles.select} defaultValue={preferences.customAiProvider || "gemini"}>
+                        <option value="gemini">Gemini (Google)</option>
+                        <option value="openai">OpenAI</option>
+                        <option value="deepseek">DeepSeek</option>
+                    </select>
+                </div>
+
+                <div className={styles.field}>
+                    <label className={styles.label}>Custom Model Name (Optional)</label>
+                    <input
+                        name="customAiModel"
+                        type="text"
+                        className={styles.input}
+                        placeholder="e.g. gpt-4o, deepseek-coder"
+                        defaultValue={preferences.customAiModel || ""}
+                    />
+                </div>
+
+                <div className={styles.field}>
+                    <label className={styles.label}>Custom API Key</label>
+                    <input
+                        name="customAiApiKey"
+                        type="password"
+                        className={styles.input}
+                        placeholder="sk-..."
+                        defaultValue={preferences.customAiApiKey || ""}
                     />
                 </div>
 

@@ -26,7 +26,7 @@ export async function processUserSummarization(userId) {
 
         // 2. Generate AI Summary
         console.log("[Orchestrator] Generating AI summary...");
-        const summary = await aiSummarize(emails, preferences.language);
+        const summary = await aiSummarize(emails, preferences.language, preferences);
         console.log("[Orchestrator] AI summary generated");
 
         // 3. Send Notifications

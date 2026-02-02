@@ -57,6 +57,10 @@ export async function updateUserPreferences(prevState, formData) {
                 automationEnabled,
                 summaryTime,
                 timezone,
+                useCustomAI: formData.get("useCustomAI") === "on",
+                customAiProvider: formData.get("customAiProvider"),
+                customAiModel: formData.get("customAiModel"),
+                customAiApiKey: formData.get("customAiApiKey"),
             },
             create: {
                 userId: session.user.id,
@@ -68,6 +72,10 @@ export async function updateUserPreferences(prevState, formData) {
                 automationEnabled,
                 summaryTime,
                 timezone,
+                useCustomAI: formData.get("useCustomAI") === "on",
+                customAiProvider: formData.get("customAiProvider"),
+                customAiModel: formData.get("customAiModel"),
+                customAiApiKey: formData.get("customAiApiKey"),
             },
         });
 

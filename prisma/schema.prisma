@@ -61,6 +61,10 @@ model UserPreferences {
   automationEnabled   Boolean @default(false)
   summaryTime         String? // e.g. "08:00"
   timezone            String  @default("UTC")
+  useCustomAI         Boolean @default(false)
+  customAiProvider    String? // "gemini", "openai", "deepseek"
+  customAiModel       String?
+  customAiApiKey      String?
 }
 
 model SummaryHistory {
