@@ -36,7 +36,7 @@ export async function GET(request) {
 
             // Robust check: Trigger if the current hour matches AND 
             // the current minute is within [targetM, targetM + 14]
-            // This ensures a cron running every 15 mins will always catch the user.
+            // This ensures a cron running every 15 mins will always catch the user
             const isMatch = hh === targetH && mm >= targetM && mm < targetM + 15;
 
             console.log(`[Cron] Checking user: ${user.userId}, Local: ${hh}:${mm}, Target: ${user.summaryTime}, Match: ${isMatch}`);
