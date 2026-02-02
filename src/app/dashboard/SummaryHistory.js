@@ -76,7 +76,7 @@ export default function SummaryHistory({ history }) {
                             <th style={{ padding: '0.75rem' }}>Time</th>
                             <th style={{ padding: '0.75rem' }}>Result</th>
                             <th style={{ padding: '0.75rem' }}>Emails</th>
-                            <th style={{ padding: '0.75rem' }}>Action</th>
+                            <th style={{ padding: '0.75rem', textAlign: 'right' }}>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,21 +93,25 @@ export default function SummaryHistory({ history }) {
                                     </span>
                                 </td>
                                 <td style={{ padding: '0.75rem' }}>{record.count}</td>
-                                <td style={{ padding: '0.75rem' }}>
+                                <td style={{ padding: '0.75rem', textAlign: 'right' }}>
                                     <button
                                         onClick={() => handleDeleteSingle(record.id)}
                                         disabled={deletingId === record.id}
                                         style={{
-                                            background: 'none',
-                                            border: 'none',
+                                            background: 'rgba(248, 113, 113, 0.1)',
+                                            border: '1px solid rgba(248, 113, 113, 0.2)',
                                             color: '#f87171',
                                             cursor: 'pointer',
-                                            opacity: 0.7,
-                                            padding: 0
+                                            padding: '4px 8px',
+                                            borderRadius: '4px',
+                                            fontSize: '0.75rem',
+                                            transition: 'all 0.2s'
                                         }}
+                                        onMouseOver={(e) => e.target.style.background = 'rgba(248, 113, 113, 0.2)'}
+                                        onMouseOut={(e) => e.target.style.background = 'rgba(248, 113, 113, 0.1)'}
                                         title="Delete this record"
                                     >
-                                        {deletingId === record.id ? "..." : "✕"}
+                                        {deletingId === record.id ? "..." : "Delete"}
                                     </button>
                                 </td>
                             </tr>
