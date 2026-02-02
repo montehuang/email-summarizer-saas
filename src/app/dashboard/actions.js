@@ -108,3 +108,30 @@ export async function getSummaryHistory() {
         take: 10
     });
 }
+
+export async function deleteSummaryHistory(id) {
+    const session = await auth();
+    if (!session?.user?.id) throw new Error("Unauthorized");
+
+    await prisma.summaryHistory.delete({
+        where: {
+            id,
+            userId: session.user.id // Ensure user owns the record
+        }
+    });
+
+    revalidatePath("/dashboard");
+    return { success: true };
+}
+
+export async function clearAllSummaryHistory() {
+    const session = await auth();
+    if (!session?.user?.id) throw new Error("Unauthorized");
+
+    await prisma.summaryHistory.deleteMany({
+        where: { userId: session.user.id }
+    });
+
+    revalidatePath("/dashboard");
+    return { success: true };
+}
