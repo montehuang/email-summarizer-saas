@@ -21,6 +21,29 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }),
     ],
     callbacks: {
+        async signIn({ user, account }) {
+            if (account && user.id) {
+                console.log(`[Auth] User ${user.id} signed in with ${account.provider}. Updating tokens...`);
+                // Update the account tokens in the database manually
+                await prisma.account.update({
+                    where: {
+                        provider_providerAccountId: {
+                            provider: account.provider,
+                            providerAccountId: account.providerAccountId,
+                        },
+                    },
+                    data: {
+                        access_token: account.access_token,
+                        refresh_token: account.refresh_token,
+                        expires_at: account.expires_at,
+                        scope: account.scope,
+                        id_token: account.id_token,
+                    },
+                });
+                console.log(`[Auth] Tokens updated successfully for user ${user.id}`);
+            }
+            return true;
+        },
         async session({ session, user }) {
             if (session.user) {
                 session.user.id = user.id;
